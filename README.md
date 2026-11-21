@@ -11,6 +11,8 @@
 
 [![Watch the demo](docs/video.jpg)](https://bundles.975l.com/showcase/films/pilot-bundle-en.mp4)
 
+▶ [Watch the 90-second film](https://bundles.975l.com/showcase/films/pilot-bundle-en.mp4)
+
 Built from the open-source [c975L bundles](https://github.com/975L) for the [Symfony AI & MCP Hackathon](https://symfony.com/hackathon).
 
 ## Run it

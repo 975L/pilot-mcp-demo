@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.1.0
+
+Link to the film in the README
+
+- Link to the 90-second film under the README's poster (21/11/2026)
+- php-cs-fixer cache no longer versioned (21/11/2026)
+- ESLint and Stylelint configurations, those of the c975L bundles (21/11/2026)
+
 ## v1.0.0
 
 Pilot MCP demo for the Symfony AI & MCP Hackathon

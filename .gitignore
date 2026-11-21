@@ -56,3 +56,6 @@ public/watermark-on-dark.*
 
 #Ignore vscode AI rules
 .github/instructions/codacy.instructions.md
+
+# The cache php-cs-fixer writes at each run
+/.php-cs-fixer.cache
