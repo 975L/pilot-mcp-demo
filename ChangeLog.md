@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.3.0
+
+CI on actions/checkout v5
+
+- CI on `actions/checkout@v5`, running on Node 24 as the bundles' (21/11/2026)
+
 ## v1.2.0
 
 CI started by hand too
