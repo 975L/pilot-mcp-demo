@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.4.0
+
+Where the press kit PDF lands, in the README
+
+- Folder of the press kit PDF and the optional `pilot-open://` handler said in the README (21/11/2026)
+
 ## v1.3.0
 
 CI on actions/checkout v5

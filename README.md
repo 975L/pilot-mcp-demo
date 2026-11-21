@@ -23,6 +23,8 @@ git clone https://github.com/975L/pilot-mcp-demo && cd pilot-mcp-demo && compose
 
 Needs PHP 8.5+ (`pdo_sqlite`, `gd`, `intl`, `zip`), Composer, the [Symfony CLI](https://symfony.com/download) and Python 3; `composer demo` says what is missing. Sign in with `editor@example.com` / `lighthouse-demo`, open the card "Release The Lighthouse at Dawn" and click ▶ on its first step. Run it again for a clean take, `composer demo:stop` to stop.
 
+The press kit PDF lands in `var/runner/site-0/card-<id>/`. For a click on the card to open it, declare the `pilot-open://` handler once (Linux, it writes a desktop entry in your session): `PILOT_RUNNER_CONFIG=$PWD/runner python3 vendor/c975l/pilot-bundle/runner/pilot-open.py --install`.
+
 The agent is Claude Code when `claude` is on the `PATH`, otherwise the Symfony AI agent of this repository with `ANTHROPIC_API_KEY`, or any OpenAI-compatible API (`GENERIC_BASE_URL`, `GENERIC_MODEL`). Without one, everything works but "Send to the AI".
 
 ## What it unlocked
