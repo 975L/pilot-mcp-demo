@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.0
+
+CI started by hand too
+
+- CI started by hand with `gh workflow run CI` (21/11/2026)
+
 ## v1.1.0
 
 Link to the film in the README

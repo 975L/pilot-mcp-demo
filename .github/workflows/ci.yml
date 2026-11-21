@@ -4,6 +4,8 @@ name: CI
 on:
   push:
   pull_request:
+  # Started by hand too: gh workflow run CI
+  workflow_dispatch:
 
 permissions:
   contents: read
