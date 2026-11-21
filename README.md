@@ -9,9 +9,9 @@
 
 **Hand a step of a project card to an AI agent: it does the work on your site, with the rights of one account, and asks you on the card what it still needs. Publishing stays yours.**
 
-[![Watch the demo](docs/video.jpg)](https://bundles.975l.com/showcase/films/pilot-bundle-en.mp4)
+[![Watch the demo](docs/video.jpg)](https://youtu.be/SsFu2GmnqA0)
 
-▶ [Watch the 90-second film](https://bundles.975l.com/showcase/films/pilot-bundle-en.mp4)
+▶ [Watch the 90-second film](https://youtu.be/SsFu2GmnqA0) · [PilotBundle's page](https://bundles.975l.com/pages/pilot-bundle)
 
 Built from the open-source [c975L bundles](https://github.com/975L) for the [Symfony AI & MCP Hackathon](https://symfony.com/hackathon).
 

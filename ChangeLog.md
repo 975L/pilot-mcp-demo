@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.4.1
+
+Changed video link
+
+- Film linked on YouTube, with PilotBundle's page beside it (21/11/2026)
+
 ## v1.4.0
 
 Where the press kit PDF lands, in the README
