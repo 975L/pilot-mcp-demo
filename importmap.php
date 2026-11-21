@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * Returns the importmap for this application.
+ *
+ * - "path" is a path inside the asset mapper system. Use the
+ *     "debug:asset-map" command to see the full list of paths.
+ *
+ * - "entrypoint" (JavaScript only) set to true for any module that will
+ *     be used as an "entrypoint" (and passed to the importmap() Twig function).
+ *
+ * The "importmap:require" command can be used to add new entries to this file.
+ *
+ * @return array<string, array{    // Import name as key, description of the imported file as value
+ *     path: string,               // Logical, relative or absolute path to the file
+ *     type?: 'js'|'css'|'json',   // Type of the file, defaults to 'js'
+ *     entrypoint?: bool,          // Whether the file is an entrypoint, for 'js' only
+ * }|array{
+ *     version: string,            // Version of the remote package
+ *     package_specifier?: string, // Remote "package-name/path" specifier, defaults to the import name
+ *     type?: 'js'|'css'|'json',
+ *     entrypoint?: bool,
+ * }>
+ */
+return [
+    'app' => ['path' => './assets/app.js', 'entrypoint' => true],
+    '@hotwired/stimulus' => ['version' => '3.2.2'],
+    '@symfony/stimulus-bundle' => ['path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js'],
+    '@hotwired/turbo' => ['version' => '8.0.23'],
+    'chart.js' => ['version' => '4.6.1'],
+    '@kurkle/color' => ['version' => '0.3.4'],
+    '@symfony/ux-live-component' => ['path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js'],
+    '@c975l/ui-bundle/controllers-admin.js' => ['path' => './vendor/c975l/core-bundle/UiBundle/assets/controllers-admin.js', 'entrypoint' => true],
+    '@c975l/ui-bundle/pointer-sort.js' => ['path' => './vendor/c975l/core-bundle/UiBundle/assets/js/pointer-sort.js'],
+    '@c975l/ui-bundle/controllers.js' => ['path' => './vendor/c975l/core-bundle/UiBundle/assets/controllers.js', 'entrypoint' => true],
+    '@c975l/ui-bundle/handlers.js' => ['path' => './vendor/c975l/core-bundle/UiBundle/assets/js/handlers.js'],
+    '@c975l/config-bundle/controllers-admin.js' => ['path' => './vendor/c975l/core-bundle/ConfigBundle/assets/controllers-admin.js', 'entrypoint' => true],
+    '@c975l/book-bundle/controllers.js' => ['path' => './vendor/c975l/book-bundle/assets/controllers.js', 'entrypoint' => true],
+    '@c975l/payment-bundle/controllers.js' => ['path' => './vendor/c975l/payment-bundle/assets/controllers.js', 'entrypoint' => true],
+    '@c975l/gallery-bundle/controllers-admin.js' => ['path' => './vendor/c975l/gallery-bundle/assets/controllers-admin.js', 'entrypoint' => true],
+    '@c975l/gallery-bundle/controllers.js' => ['path' => './vendor/c975l/gallery-bundle/assets/controllers.js', 'entrypoint' => true],
+    '@c975l/pilot-bundle/controllers-admin.js' => ['path' => './vendor/c975l/pilot-bundle/assets/controllers-admin.js', 'entrypoint' => true],
+    '@c975l/social-bundle/controllers-admin.js' => ['path' => './vendor/c975l/social-bundle/assets/controllers-admin.js', 'entrypoint' => true],
+    '@c975l/social-bundle/controllers.js' => ['path' => './vendor/c975l/social-bundle/assets/controllers.js', 'entrypoint' => true],
+    '@symfony/ux-chartjs' => ['path' => './vendor/symfony/ux-chartjs/assets/dist/controller.js'],
+];

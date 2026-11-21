@@ -1,0 +1,12 @@
+# Written for you as runner/runner.yaml by "php bin/console app:demo:setup": copy this file only to write it by hand
+# The demo site this machine serves, with the machine token the setup printed
+sites:
+  - url: http://127.0.0.1:8000
+    token: change-me
+
+# Root of the work folders, one per card (card-<id>)
+workdir: /path/to/pilot-mcp-demo/var/runner
+
+# The folders a pilot-open:// link opens on this computer: the press kit's PDF lands there
+open:
+  - /path/to/pilot-mcp-demo/var/runner

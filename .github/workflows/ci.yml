@@ -1,0 +1,54 @@
+# The test suite, then the demo started as a visitor would start it, with no AI agent available
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  # PHPUnit on its own SQLite database, no model or network API ever called
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # 8.5, the lowest the lock installs on (endroid/qr-code 6.2 requires it)
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: pdo_sqlite, gd, intl, zip
+          coverage: none
+      - run: composer install --no-interaction --no-progress
+      - run: php bin/phpunit
+
+  # composer demo end to end: setup, server and runner started, then the login page and the MCP endpoint reached
+  smoke:
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: pdo_sqlite, gd, intl, zip
+          coverage: none
+      - name: Install the Symfony CLI
+        run: |
+          curl -sS https://get.symfony.com/cli/installer | bash
+          echo "$HOME/.symfony5/bin" >> "$GITHUB_PATH"
+      - run: composer install --no-interaction --no-progress
+      - name: Start the demo
+        run: composer demo
+      - name: Reach the site and the MCP endpoint
+        run: |
+          Url=$(grep -oE 'http://127\.0\.0\.1:[0-9]+' var/log/demo-setup.log | head -1)
+          test "$(curl -s -o /dev/null -w '%{http_code}' "$Url/login")" = 200
+          test "$(curl -s -o /dev/null -w '%{http_code}' -X POST "$Url/api/mcp")" = 401
+      - name: Show the logs on failure
+        if: failure()
+        run: cat var/log/demo-setup.log var/log/server.log var/log/runner.log || true
+      - name: Stop the demo
+        if: always()
+        run: composer demo:stop

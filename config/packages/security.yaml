@@ -1,0 +1,58 @@
+security:
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_profiler(/|$)|(_wdt|assets|build)/)
+            security: false
+        # The MCP endpoint of c975l/core-bundle: an AI agent sends its agent token as a Bearer, before main so the stateful firewall never sees it
+        mcp:
+            pattern: ^/api/mcp$
+            stateless: true
+            provider: app_user_provider
+            access_token:
+                token_handler: c975L\ConfigBundle\Security\AgentTokenHandler
+        main:
+            # The login form in the language of the page asked for
+            entry_point: c975L\ConfigBundle\Security\LoginEntryPoint
+            user_checker: App\Security\UserChecker
+            login_throttling:
+                max_attempts: 5
+                interval: '15 minutes'
+            lazy: true
+            provider: app_user_provider
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                default_target_path: pilot_dashboard
+                enable_csrf: true
+            logout:
+                path: app_logout
+
+    # Only the first matching rule is applied
+    access_control:
+        # The MCP endpoint answers its token itself, 404 until mcp-enabled is checked
+        - { path: ^/api/mcp$, roles: PUBLIC_ACCESS }
+        # The back office floor, at the firewall rather than only in each controller
+        - { path: ^/management, allow_if: "is_granted('C975L_ACCESS_BACK_OFFICE')" }
+        # PilotBundle: the runner API answers the machines' own tokens, a shared card its secret link, the piloting pages any signed-in account
+        - { path: ^/api/pilot/runner/, roles: PUBLIC_ACCESS }
+        - { path: ^/pilot/share/, roles: PUBLIC_ACCESS }
+        - { path: ^/pilot, roles: IS_AUTHENTICATED_FULLY }
+
+when@test:
+    security:
+        password_hashers:
+            # Lowest costs in tests, hashing being slow by design
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4
+                time_cost: 3
+                memory_cost: 10

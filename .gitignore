@@ -1,0 +1,58 @@
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
+
+###> symfony/asset-mapper ###
+/public/assets/
+/assets/vendor/
+###< symfony/asset-mapper ###
+
+###> sensiolabs/minify-bundle ###
+/var/minify/
+###< sensiolabs/minify-bundle ###
+
+existingFiles/
+public/medias
+private/medias
+public/robots.txt
+public/humans.txt
+public/llms.txt
+public/sitemap*
+public/indexnow-key.txt
+/rclone.conf
+public/favicon.*
+public/apple-touch-icon.*
+public/app-icon.*
+public/og-image.*
+public/logo.*
+public/logo-on-dark.*
+public/watermark-on-light.*
+public/watermark-on-dark.*
+
+###> app:demo:setup ###
+# The runner's tokens, written by the setup
+/runner/runner.yaml
+/runner/agent.env
+# The files the datasets and the agent upload
+/public/medias/
+/private/
+###< app:demo:setup ###
+
+# The passes and reviews of Claude Code
+/.claude/
+
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md

@@ -1,0 +1,21 @@
+{
+    "$schema": "https://biomejs.dev/schemas/2.5.11/schema.json",
+    "vcs": {
+        "enabled": true,
+        "clientKind": "git",
+        "useIgnoreFile": true
+    },
+    "overrides": [
+        {
+            "includes": ["assets/controllers/csrf_protection_controller.js"],
+            "linter": {
+                "rules": {
+                    "suspicious": {
+                        "useIterableCallbackReturn": "off",
+                        "noAssignInExpressions": "off"
+                    }
+                }
+            }
+        }
+    ]
+}

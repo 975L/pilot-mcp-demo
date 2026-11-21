@@ -1,0 +1,382 @@
+/* This site's UiBundle tokens: every line ships commented out at its default, so what stays active is what the design decides */
+/* Format in c975l/site-bundle's readme ("Themes"), defaults in this bundle's sass/_tokens.scss */
+/* One file per bundle - this one travels with UiBundle, so a site without SiteBundle keeps its whole surface */
+/* Colors and fonts are absent on purpose: admin-editable, compiled into bundles/build/site-theme.css */
+/* So are --section-text/-accent/-border/-overlay, mixed per flat in .section--bg-* - retune --section-bg-* below */
+/* ":root, [data-theme]" and not ":root" alone: the bundle declares its defaults on both, so inside an element carrying data-theme a value set here only on the root would lose to the bundle's default declared on that very element */
+:root, [data-theme] {
+    /* --radius-btn: 5px; */
+    /* --radius-card: 10px; */
+    /* --radius-panel: 16px; */
+
+    /* The weight of headings and of body copy. The families themselves are admin-editable, these are not */
+    /* --font-title-weight: normal; */
+    /* --font-body-weight: normal; */
+
+    /* Titles and eyebrows keep their own lengths - they are the design's marks, and SiteBundle's --font-size-body must not drag them along - so each is multiplied by the factor of its family. A factor and not one shared size: those lengths are a hierarchy, from a 66px hero title down to a 19px card title, and one value for all of them would flatten it. Raise one when the picked face reads small at the size a wider one reads right, which is a matter of its x-height, not of its size */
+    /* --font-size-title-scale: 1; */
+    /* --font-size-eyebrow-scale: 1; */
+
+    /* Measure of the page and of a section's content, plus the gutter keeping it off the viewport edges. --section-wrap-max-width defaults to --body-max-width: set it only for sections narrower than the page */
+    /* --body-max-width: 1440px; */
+    /* --section-wrap-max-width: var(--body-max-width); */
+    /* --section-wrap-gutter: clamp(20px, 5vw, 64px); */
+
+    /* The measure body copy is laid out on - an article, a "text" block, a legal page, and the sliders and comparisons sharing that column. Well under --body-max-width, which frames the page and never carries a line of text. Set it in "ch" rather than "px" for a measure that follows the body font */
+    /* --reading-max-width: min(75ch, 90vw); */
+
+    /* Gap left above an anchor target, so a sticky navbar doesn't cover it - match the navbar's height. Read by both bundles (a legal document's sections here, an article and a "text" block in SiteBundle) */
+    /* --scroll-offset: 80px; */
+
+    /* The page's vertical rhythm: the one step parting any two section-level blocks, declared on the top edge of each so a pair is never parted by two. The tight one is the "text" block's, which commonly opens a page right under its own <h1>. Retuning these two retunes every gap on every page at once */
+    /* --section-space: clamp(48px, 8vw, 84px); */
+    /* --section-space-tight: clamp(24px, 4vw, 48px); */
+
+    /* The room kept above and below a slider and a comparison, the two block kinds laying out their own vertical rhythm rather than taking the one the section-level blocks share */
+    /* --slider-margin-block: 3em; */
+    /* --image-compare-margin-block: 3em; */
+
+    /* What delimits a comparison on the page - the one image kind carrying an outline, a screenshot ending on white having no edge of its own. "none" takes it back off for a design whose shots come already framed */
+    /* --image-compare-border: 1px solid var(--border-color); */
+
+    /* The zoom a picture's high resolution opens in, over the page: how far the dialog may spread, and what the page is veiled with behind it */
+    /* --image-zoom-max-width: 95vw; */
+    /* --image-zoom-max-height: 95vh; */
+    /* --image-zoom-backdrop: rgba(0, 0, 0, 0.9); */
+
+    /* The map block: the room it keeps on the page, the three heights an editor picks between, what frames the canvas, and the colour of the pin drawn over it */
+    /* --ui-map-margin-block: 3em; */
+    /* --ui-map-height-small: 15rem; */
+    /* --ui-map-height-medium: 25rem; */
+    /* --ui-map-height-large: 35rem; */
+    /* --ui-map-border: 1px solid var(--border-color); */
+    /* --ui-map-pin-color: var(--primary); */
+    /* --ui-map-select-background: var(--background); */
+    /* --ui-map-select-color: var(--text); */
+
+    /* What parts two blocks grouped in a "block_group" - the row gap first, which only shows once the group wraps. It is the gap of a footer's own items too, a group being what puts a footer's links on a line */
+    /* --blocks-group-gap: 0.5rem 1.5rem; */
+
+    /* The measures of the section-level blocks */
+    /* --section-head-max-width: 640px; */
+    /* The weight of a section's title - point it at --font-title-weight for sections headed like the page title */
+    /* --section-title-weight: 500; */
+    /* The step a section's title starts in on, under its own eyebrow - 0 lines the two up */
+    /* --section-head-indent: 32px; */
+    /* --hero-text-max-width: 720px; */
+    /* --hero-media-max-width: 520px; */
+    /* --cta-band-text-max-width: 560px; */
+    /* --alert-max-width: 700px; */
+    /* The narrowest a contact_details field column may get before its grid drops one - raise it for a design whose labels wrap, lower it to keep more fields on a line */
+    /* --contact-details-col-min: 210px; */
+    /* The narrowest a Facts column may get before its grid drops one (the member's profile, for one) - same reading as the contact_details one above */
+    /* --facts-col-min: 210px; */
+
+    /* One segment of a "progress_tracker" - a plain bar of the border color, filled with the brand one. The clip is what turns it into something else: a diamond with polygon(50% 0, 100% 50%, 50% 100%, 0 50%), a chevron, a tally. The segments share the row's width whatever their number, so only their height is set here */
+    /* --tracker-segment-height: 22px; */
+    /* --tracker-segment-clip: none; */
+    /* --tracker-segment-on: var(--primary); */
+    /* --tracker-segment-off: var(--border-color); */
+
+    /* The rating - the rest of the row a quarter of the page ink, two colors rather than one and an opacity: a faded accent reads as a disabled control where a neutral reads as "not yet earned". The size is in em, so a row of icons follows the type size of wherever it is dropped */
+    /* A lit icon is painted in the color of its own sign - golden for a star, red for a heart, blue for a thumb - which the bundle holds and no theme retunes one by one. Setting --rating-on is how a site says "my accent on all of them": it wins over the four */
+    /* --rating-on: var(--secondary); */
+    /* --rating-off: color-mix(in srgb, var(--text) 25%, var(--background)); */
+    /* --rating-size: 1.1em; */
+
+    /* The reviews section drawn on the reviewed thing's own page, and the grid of cards inside it */
+    /* --reviews-margin-block: 2rem; */
+    /* --review-min-width: 18rem; */
+    /* --review-list-gap: 1rem; */
+
+    /* A review card as rendered inside a "collection" block - transparent by default, i.e. the page shows through, the surrounding block owning the surface */
+    /* --review-background: transparent; */
+    /* --review-border-color: #dcdcdc; */
+    /* --review-gap: 0.5rem; */
+    /* --review-padding: 1rem; */
+    /* --review-radius: 0.5rem; */
+
+    /* The author's avatar, always square whatever the platform serves */
+    /* --review-avatar-size: 48px; */
+
+    /* The icons of the review form, the one place a visitor sets a score by clicking them rather than reading them - what they are painted in is the rating row's own affair, above */
+    /* --review-rating-star-size: 2rem; */
+
+    /* The date, the verified badge and the reply label, all secondary to the review itself */
+    /* --review-secondary-size: 0.875em; */
+
+    /* The wishlist heart - the same two-color reading as the rating row above: filled in the red a heart is read in once the visitor put the thing aside, a quarter of the page ink until then. Sized in em so it follows the type size of the card or the sheet it is dropped in */
+    /* --favorite-on: #e60000; */
+    /* --favorite-off: color-mix(in srgb, var(--text) 25%, var(--background)); */
+    /* --favorite-size: 1.5em; */
+
+    /* The calculator - a "form" block whose Form owns outputs. The panel its results are read in, the card
+       carrying the one figure the visitor came for, and what paints the sliders' filled track. All of them
+       follow the brand color, or a surface mixed out of it, so the calculator is the site's by default -
+       point the three colors at --secondary for a calculator meant to stand apart from the page around it */
+    /* --calculator-panel-background: var(--surface-alt); */
+    /* --calculator-panel-radius: var(--radius-panel); */
+    /* --calculator-highlight-background: var(--surface-accent); */
+    /* --calculator-highlight-color: var(--primary-ink); */
+    /* --calculator-highlight-size: 2.6em; */
+    /* --calculator-slider-color: var(--primary); */
+
+    /* Hero block - its own typographic scale, independent from the page's headings */
+    /* --hero-title-size: clamp(40px, 6vw, 66px); */
+    /* --hero-title-letter-spacing: -0.01em; */
+    /* --hero-title-line-height: 1.03; */
+    /* --hero-sub-size: 19px; */
+    /* --hero-sub-max-width: 480px; */
+    /* Inset of each mark inside its tile, on a hero laying its medias out as a grid. Kept narrow: a logo carries a margin of its own inside its viewBox, a photo has none. Raise it for bare glyphs */
+    /* --hero-media-grid-padding: 5%; */
+    /* The opaque plate each mark is read against, so its own colors never mix into the hero background - repaint it for marks drawn for a dark ground */
+    /* --hero-media-grid-background: #fff; */
+    /* The room a hero opening on a background video gives it: the shot is cropped to the section's height, which would otherwise be that of the text alone. Only read when a video is attached */
+    /* --hero-video-min-height: 70vh; */
+
+    /* Pricing card - the "card--pricing" variant, one offer among several: the size its price grows to (PaymentBundle's ".price" reads it as --price-size) */
+    /* --card-pricing-price-size: 2.25rem; */
+    /* The size of its name, the enlarged card's */
+    /* --card-pricing-title-size: var(--card-title-size-big); */
+
+    /* Text hook - the lead-in phrase of the "text_hook" block and of an article */
+    /* --text-hook-size: clamp(17px, 1.7vw, 20px); */
+    /* --text-hook-line-height: 1.65; */
+    /* --text-hook-max-width: 62ch; */
+    /* --text-hook-color: var(--section-text, var(--text)); */
+    /* --text-hook-margin-bottom: 24px; */
+    /* The bar the standalone block is marked out by, where an article's hook is marked out by its color */
+    /* --text-hook-bar-width: 3px; */
+    /* --text-hook-bar-gap: 20px; */
+    /* --text-hook-standalone-margin: 32px; */
+    /* An article's hook falls back to the brand ink, so set this on a theme whose hook is a color of its own */
+    /* --text-hook-article-color: var(--section-accent, var(--primary-ink)); */
+    /* --text-hook-article-max-width: none; */
+    /* --text-hook-article-margin: 24px; */
+
+    /* The measure a "text_section" lays its copy on - the page's own by default, so a section holding more than prose keeps the full width. Point it at --reading-max-width for a site whose text sections are prose, and their lines stop where a "text" block's and a readmore's already do */
+    /* --text-section-max-width: var(--section-wrap-max-width, var(--body-max-width, 1440px)); */
+
+    /* The "secondary" presentation of the "text_section" block - a section standing beside a louder one, the companion paragraph of a hook in the column next to it, rather than carrying the page on its own */
+    /* --text-section-secondary-size: clamp(17px, 1.5vw, 21px); */
+    /* --text-section-secondary-line-height: 1.7; */
+    /* --text-section-secondary-color: var(--section-text, var(--label-color)); */
+
+    /* The three flats a page section can be painted with, when an editor sets its "background" field. Only the background is set here: the text, dividers and translucent chips of each variant are mixed back into it automatically, so retuning one line retunes the whole variant. "muted" is mixed out of --primary rather than pointing at --surface-alt's neutral grey, so the band reads as a paler shade of the site instead of as an absence of color */
+    /* --section-bg-muted: color-mix(in srgb, var(--background) 94%, var(--primary)); */
+    /* --section-bg-primary: var(--primary); */
+    /* --section-bg-dark: var(--text); */
+    /* Label of a primary button sitting on the "primary" or "dark" flat, where the button turns white */
+    /* --section-btn-color: var(--primary); */
+    /* A flat bleeds full-viewport-width, past --body-max-width - set these to auto/auto/0 for a design that frames the page, so the flats stay inside the frame like the navbar and footer in site.css */
+    /* --section-flat-offset: 50%; */
+    /* --section-flat-width: 100vw; */
+    /* --section-flat-margin-x: -50vw; */
+
+    /* Content bits */
+    /* --link-color: var(--primary-ink); */
+    /* --label-color: color-mix(in srgb, var(--text) 70%, var(--background)); */
+    /* --card-background: #fff; */
+    /* The eyebrow above a card's title - the page's own ink by default, an eyebrow being set small enough that an accent rarely holds the 4.5:1 a 12px text asks for. Set the accent here once it has been checked that it does */
+    /* --card-eyebrow-color: var(--text); */
+    /* The measure of a card, and of the compact one a dense row uses. Both are read off --section-wrap-max-width above rather than written down: three cards and their two gaps have to fit the page measure, six compact ones and their five, whatever measure this site sets - which is why neither of them has to be recalculated here after narrowing the wrap. They resolve to 380px and 190px on the default 1440px page */
+    /* What a ".cards" row puts between two cards, read by the row itself and by the widths below */
+    /* --cards-gap: 20px; */
+    /* The smallest track of a picture grid (BookBundle's covers, ShopBundle's products) and the gap between its tracks: the phone's values below, 215px and 20px from 1024px up */
+    /* --card-grid-gap: 12px; */
+    /* --card-grid-min: min(150px, calc(50% - var(--card-grid-gap) / 2)); */
+    /* --card-width: min(90vw, 380px, calc((var(--section-wrap-max-width, var(--body-max-width, 1440px)) - 2 * var(--section-wrap-gutter, clamp(20px, 5vw, 64px)) - 40px) / 3)); */
+    /* The viewport's own width, read through a token rather than written as "100vw" below: the W3C CSS validator refuses any subtraction mixing a "vw" length with a var() it cannot resolve, and reports it as an error on every page */
+    /* --viewport-width: 100vw; */
+    /* --card-width-compact: min(calc((var(--viewport-width) - 2 * var(--section-wrap-gutter, clamp(20px, 5vw, 64px)) - var(--cards-gap)) / 2), 190px, calc((var(--section-wrap-max-width, var(--body-max-width, 1440px)) - 2 * var(--section-wrap-gutter, clamp(20px, 5vw, 64px)) - 100px) / 6)); */
+    /* --card-width-big: min(90vw, 570px, calc((var(--section-wrap-max-width, var(--body-max-width, 1440px)) - 2 * var(--section-wrap-gutter, clamp(20px, 5vw, 64px)) - 20px) / 2)); */
+    /* The portrait card, four to the row: a collection whose items are people, the picture over the name. 285 * 4 is the same 1140px of cards as the three widths above, and the portrait itself keeps a measure of its own inside that card */
+    /* --card-width-portrait: min(90vw, 285px, calc((var(--section-wrap-max-width, var(--body-max-width, 1440px)) - 2 * var(--section-wrap-gutter, clamp(20px, 5vw, 64px)) - 60px) / 4)); */
+    /* --card-portrait-media-max-width: 200px; */
+    /* The card title's own size, stated rather than inherited from the theme's h1-h6, which would give a card the size of a page heading. The compact card steps down once more */
+    /* --card-title-size: calc(19px * var(--font-size-title-scale, 1)); */
+    /* --card-title-size-compact: calc(15px * var(--font-size-title-scale, 1)); */
+    /* --card-title-size-big: calc(23px * var(--font-size-title-scale, 1)); */
+    /* The mention at the right end of a band ("titleAside") - a size below the title it qualifies, a shade lighter */
+    /* --card-header-aside-size: 0.75em; */
+    /* --card-header-aside-opacity: 0.8; */
+    /* --box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5); */
+    /* Lines shown before a "read more" block clamps its text */
+    /* --readmore-lines: 5; */
+
+    /* The page summary of anchors - a bar of chips coming to rest under the header on a phone, a column
+       standing beside the text from 1200px on. --toc-height is what the resting bar covers, and so what a
+       section jumped to leaves above itself: retune it here if the chips are given another size below. */
+    /* --toc-sticky-top: var(--scroll-offset, 80px); */
+    /* --toc-height: 4rem; */
+    /* --toc-background: var(--background); */
+    /* --toc-current-color: var(--primary-ink); */
+    /* --toc-chip-radius: 999px; */
+    /* --toc-column-width: 220px; */
+    /* --toc-gap: 0.5rem; */
+    /* --toc-marker-width: 3px; */
+
+    /* The two buttons pulling to the top and to the bottom of the page, which a long page is walked with. */
+    /* --back-pull-background-color: #bababa; */
+    /* --back-pull-background-color-hover: #9c9fa3; */
+    /* --back-pull-color: #333; */
+    /* --back-pull-opacity: 0.7; */
+    /* --back-pull-size: 44px; */
+
+    /* The player of an <audio> given sticky="true" - a bar coming to rest against the bottom of the
+       column it accompanies. It hides what slides under it, so it cannot be transparent. */
+    /* --audio-sticky-background: var(--background); */
+
+    /* A media's title - a video's, a player's - at one scale whatever rank the page gives it. */
+    /* --media-title-size: calc(1.3rem * var(--font-size-title-scale, 1)); */
+
+    /* The two-sided card. Its own shape and its own surfaces, sharing nothing with the plain card above: a
+       flip card is an object a visitor reaches for - outlined, rounded, titled - where a card is a panel to
+       read, so retuning one here never moves the other. The back is what the turn reveals, hence a surface
+       of its own rather than the front's; mixed out of the palette, so it follows the admin's colors. Its
+       outline and its two titles take the accent an editor picks, or --primary-ink when there is none - where a
+       card's accent paints a header band instead, see --block-accent-* below, shared by both */
+    /* --flip-card-radius: 25px; */
+    /* --flip-card-border-width: 3px; */
+    /* --flip-card-front-background: var(--white); */
+    /* --flip-card-back-background: color-mix(in srgb, var(--secondary) 30%, var(--background)); */
+    /* --flip-card-title-size: 2rem; */
+    /* --flip-card-text-size: 0.9rem; */
+    /* The measure of the illustration inside a face, which is centered and never fills it edge to edge */
+    /* --flip-card-media-max-width: 250px; */
+    /* The corner mark naming the gesture, faded in under the pointer and gone again at rest. It takes the
+       accent like the outline does, and is painted over the face's own content rather than in a gutter held
+       open for it - so resizing it here costs a card at rest nothing */
+    /* --flip-card-hint-size: 1.5rem; */
+    /* Its corner, as an inset (top right bottom left): move it when the card already prints something bottom right */
+    /* --flip-card-hint-inset: auto 0.6em 0.6em auto; */
+
+    /* The twelve hues the "accent" field offers, painting a card's header band and a flip card's outline and titles. Point one at this site's own palette to fold that hue into the design - the value stored on a block is the color's name, not a meaning, so it never has to change when the hue does. The card header writes white on them: keep any value here above 3:1 against white, or retune --card-accent's companion text color in this site's own app.css */
+    /* --block-accent-red: #b23a2f; */
+    /* --block-accent-orange: #c96a50; */
+    /* --block-accent-yellow: #dda43a; */
+    /* --block-accent-lime: #7f8f3c; */
+    /* --block-accent-green: #3a7d44; */
+    /* --block-accent-teal: #2f8f83; */
+    /* --block-accent-cyan: #2e7c9a; */
+    /* --block-accent-blue: #2b5d8a; */
+    /* --block-accent-indigo: #44528f; */
+    /* --block-accent-violet: #7a4e8f; */
+    /* --block-accent-pink: #a6486a; */
+    /* --block-accent-grey: #26333f; */
+
+    /* The three steps the "rounded corners" and "shadow" fields offer on a card and on a flip card, on top of
+       the "theme" default each kind keeps for itself (--radius-card / --flip-card-radius above, --box-shadow
+       for a flip card's faces). Retune a step here and every block set on it follows, whichever kind it is -
+       what a block stores is the step, never the length. The "none" step writes 0 / none and has no token */
+    /* --block-radius-small: 6px; */
+    /* --block-radius-medium: 14px; */
+    /* --block-radius-large: 28px; */
+    /* --block-shadow-small: 0 1px 3px 0 rgba(0, 0, 0, 0.2); */
+    /* --block-shadow-medium: 0 5px 10px 0 rgba(0, 0, 0, 0.5); */
+    /* --block-shadow-large: 0 12px 28px 0 rgba(0, 0, 0, 0.55); */
+
+    /* The three steps the banner's "height" field offers, on top of the "automatic" default it keeps for
+       itself - the 200px floor the banner sets. Each raises that floor and none of them caps anything: a
+       banner grows past its step rather than cropping a title that needs the room. Same rule as the steps
+       above: what a banner stores is the step, never the length */
+    /* --banner-title-height-small: 240px; */
+    /* --banner-title-height-medium: 360px; */
+    /* --banner-title-height-large: 520px; */
+
+    /* Surfaces and rules mixed out of the admin's own palette - they follow it automatically when the colors are retuned in the backoffice, which a hardcoded value here would stop. */
+    /* The brand color as ink - what is written, outlined or underlined in it, where --primary is what is painted with it. A design whose primary reads too dark on a dark page lightens this one and leaves the fills their hue */
+    /* --primary-ink: var(--c975l-color-primary-ink, var(--primary)); */
+    /* --surface-accent: color-mix(in srgb, var(--primary) 12%, var(--background)); */
+    /* --surface-alt: color-mix(in srgb, var(--background) 94%, var(--text)); */
+    /* --border-color: color-mix(in srgb, var(--text) 12%, var(--background)); */
+    /* --border-accent: color-mix(in srgb, var(--primary) 35%, var(--background)); */
+    /* --surface-inverse: #232323; */
+    /* --text-on-inverse: #d8d8d8; */
+    /* What shows beside the page once the viewport is wider than --body-max-width, and the surface an email is read on. Follows the admin's background by default, so a value here parts the two */
+    /* --frame-background: var(--background); */
+
+    /* Black and white are swapped in dark mode (--white becomes #1e1e1e, --black #e0e0e0), which is how every token pointing at them flips along. Uncommenting them here keeps that flip, the dark-mode block having the higher specificity - but a design wanting fixed values should use its own tokens. */
+    /* --black: #000; */
+    /* --white: #fff; */
+
+    /* Buttons - the primary/secondary pair follows the admin's palette through color-mix, the status three are fixed by convention (red danger, green success). */
+    /* The three inks below are read from the compiled theme first: the backoffice computes them from the colors the admin picked - white on a dark one, black on a light one - so a pale brand color no longer carries a label nobody can read. Uncommenting one takes that reading away and fixes the ink whatever the palette becomes. */
+    /* --button-color: var(--c975l-button-color, #fff); */
+    /* --button-secondary-color: var(--c975l-button-secondary-color, #000); */
+    /* --button-link-color: var(--c975l-button-link-color, #fff); */
+    /* An icon on a button is an <img>, so it takes no color from the label beside it: 1 paints it white, 0 leaves it black. Computed with the inks above and never apart from them, a dark label beside a white icon being the same button written twice. */
+    /* --button-icon-invert: var(--c975l-button-icon-invert, 1); */
+    /* --button-secondary-icon-invert: var(--c975l-button-secondary-icon-invert, 0); */
+    /* The variants whose background is a constant of the library rather than the site's color keep an ink of their own, which nothing derived from the palette reaches. */
+    /* --button-status-color: #fff; */
+    /* --button-grey-background: lightgrey; */
+    /* --button-grey-color: #000; */
+    /* --button-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5); */
+    /* The two below are the fallbacks --primary and --secondary read when the admin sets no color, so uncommenting one repaints the whole site, not just its buttons - retune the palette in the backoffice instead, unless the design really means to take those two hues away from it. The values shown are SiteBundle's, which restates these three and loads after this bundle: a site without SiteBundle gets sass/_tokens.scss's own rgb(11, 55, 178) / rgb(218, 126, 57) / #000 instead. */
+    /* --button-background-primary: #0a2d6b; */
+    /* --button-background-primary-dark: color-mix(in srgb, var(--primary) 85%, rgb(from var(--button-color) calc(255 - r) calc(255 - g) calc(255 - b))); */
+    /* --button-background-primary-light: color-mix(in srgb, var(--primary) 50%, white); */
+    /* --button-background-secondary: #0a7ba3; */
+    /* --button-background-secondary-dark: color-mix(in srgb, var(--secondary) 85%, rgb(from var(--button-secondary-color) calc(255 - r) calc(255 - g) calc(255 - b))); */
+    /* --button-background-success: rgb(40, 167, 69); */
+    /* --button-background-success-dark: rgb(40, 167, 69, 0.9); */
+    /* --button-background-danger: rgb(220, 53, 69); */
+    /* --button-background-danger-dark: rgb(220, 53, 69, 0.9); */
+
+    /* Alerts - conventional status tints, readable whatever the site's own palette. The four backgrounds and the two text colors are all restated in dark mode (SiteBundle's sass/_theme-dark.scss), where each tint is mixed into the page background: a value uncommented here applies to both. */
+    /* --alert-color: #000; */
+    /* --alert-danger-color: #9c3a44; */
+    /* --alert-danger-background: #f2dede; */
+    /* --alert-info-background: #d9edf7; */
+    /* --alert-success-background: #d0e9c6; */
+    /* --alert-warning-background: #f9dba7; */
+    /* --alert-danger-accent: #9c3a44; */
+    /* --alert-info-accent: #31708f; */
+    /* --alert-success-accent: #3c763d; */
+    /* --alert-warning-accent: #b7791f; */
+    /* --alert-danger-label: #9c3a44; */
+    /* --alert-info-label: #245a75; */
+    /* --alert-success-label: #2f5f30; */
+    /* --alert-warning-label: #7a4f0f; */
+
+    /* Form inputs. Every one of these is restated in dark mode - a value uncommented here applies to both, so a design wanting a different dark field needs its own :root[data-theme="dark"] block. */
+    /* Measure every form is laid out on */
+    /* --form-width: min(70vw, 1000px); */
+    /* --form-input-color: #555; */
+    /* Ink of a form label. Defaults to --black, so it follows the page into dark mode on its own - set it here rather than --black for a design whose labels alone read differently, --black also carrying .lead and the --navbar-text default */
+    /* --form-label-color: var(--black); */
+    /* --input-border-color: #4d4d4d; */
+    /* --input-border-bottom-color: #bfbfbf; */
+    /* --input-shadow-color: #4d4d4d; */
+    /* --input-focus-border-color: rgb(24, 115, 200); */
+    /* --input-focus-shadow-color: rgb(66, 130, 189); */
+    /* Surface of the field. Transparent, i.e. the page shows through - dark mode washes it faintly instead, a field being otherwise indistinguishable from the page behind it */
+    /* --input-background: transparent; */
+
+    /* The placeholder, mixed down from the text rather than set to a grey of its own, so it stays the required 4.5:1 against the field on any background */
+    /* --input-placeholder-color: color-mix(in srgb, var(--text) 62%, var(--background)); */
+    /* Room above and below a field - a box-shadow takes no space, so the validation ring would otherwise be drawn over the label above it and the field below */
+    /* --input-margin-block: 0.4em 1em; */
+    /* Distance from the bottom of a field's wrapper to its validation glyph - retune it for a form theme putting anything after the input */
+    /* --input-glyph-offset: 9.5px; */
+    /* Green/red replacing the blue focus ring once the field has been judged, by the browser's own constraint validation or by the password controller. Pointed at the button status colors so one palette covers the site - give them their own values for a design where green/red read differently */
+    /* --input-valid-border-color: var(--button-background-success); */
+    /* --input-valid-shadow-color: var(--button-background-success); */
+    /* --input-invalid-border-color: var(--button-background-danger); */
+    /* --input-invalid-shadow-color: var(--button-background-danger); */
+    /* Text of the message under an invalid field, kept apart from the border: the same red reads at 4.53:1 on a white page but 4.14:1 on the dark one, under the 4.5:1 WCAG AA asks of body text */
+    /* --input-invalid-text-color: var(--button-background-danger); */
+    /* Applied to the show/hide eye the password controller injects - it is an <img>, out of reach of currentColor, so dark mode inverts the black shape rather than recoloring it */
+    /* --input-icon-filter: none; */
+    /* Same treatment for any other icon laid on the page itself - a count, a list marker - an <img> being out of reach of currentColor wherever it sits. Dark mode flattens then inverts it, so a two-tone file turns into one white silhouette rather than its own negative */
+    /* --icon-filter: none; */
+    /* --required-color: #000; */
+    /* --disabled: #808080; */
+    /* The ground of a section_features tile ("tiles" variant) */
+    /* --feature-tile-background: color-mix(in srgb, var(--primary) 6%, transparent); */
+    /* The comparison_table block: the tint of the column set apart, then its ticks and crosses */
+    /* --comparison-table-highlight: #2e7d32; */
+    /* --comparison-table-yes: #2e7d32; */
+    /* --comparison-table-no: #c62828; */
+}

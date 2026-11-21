@@ -1,0 +1,17 @@
+# The demo machine's actions, each script found through PILOT_RUNNER_CONFIG and started without a shell from the card's work folder; comment holds the card's open comments, numbered one per line, handed back by its "Hand to the machine" button, a line left undone answered by a "FEEDBACK <n> <reason>" line
+
+# An AI agent working on the card through the site's MCP endpoint
+ai-agent:
+  label: Send to the AI
+  help: The AI agent of this machine works on the card through the site's MCP endpoint, ticks what it finishes and asks on the card what it misses
+  card: true
+  argv: [bash, -c, 'exec "$PILOT_RUNNER_CONFIG/agent.sh" "$1" "$2"', agent, '{workdir}', '{comment}']
+  params: { comment: '.{0,2000}' }
+
+# A plain machine action, no AI: the card laid out as a PDF, shown under its step
+press-kit:
+  label: Build the press kit
+  help: Lays the card out as a two-page PDF on this machine, no AI involved
+  card: true
+  argv: [bash, -c, 'exec "$PILOT_RUNNER_CONFIG/press-kit.sh" "$1" "$2"', press-kit, '{workdir}', '{comment}']
+  params: { comment: '.{0,2000}' }

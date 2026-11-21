@@ -1,0 +1,121 @@
+/* This site's GalleryBundle tokens: every line ships commented out at its default, so what stays active is what the design decides */
+/* Format in c975l/site-bundle's readme ("Themes"), defaults in this bundle's sass/_variables.scss */
+/* One file per bundle - this one is the photo gallery; the shapes it shares with every screen are UiBundle's, in themes/ui.css */
+/* The gallery's colors are admin-editable in the "theme" config group, which is what the "--c975l-color-gallery-*" they read holds; uncommenting one here takes it back from the back-office, this file loading last */
+/* The ground the pages are laid on has no token here: the "gallery-style" config (light, dark) retunes UiBundle's own --background/--text/--primary for the gallery's pages, so a whole page follows. Retune those in themes/ui.css to move the site along with it, or leave the style to do it for the gallery alone */
+:root {
+    /* Square side of a thumbnail, in the category grid as in the media grid */
+    /* --gallery-thumb-size: 150px; */
+    /* --gallery-grid-gap: 1em; */
+
+    /* The row the automatic galleries ("Derniers ajouts", "Tirages d'art") are shown in, above the rest and parted from it by a rule - larger tiles, the index's own entrance. Set the size to var(--gallery-thumb-size) to have them shown like the others */
+    /* --gallery-featured-thumb-size: 220px; */
+    /* --gallery-featured-gap: 2.5rem; */
+    /* --gallery-featured-rule-height: 1px; */
+    /* --gallery-featured-rule-color: var(--c975l-color-gallery-featured-rule, color-mix(in srgb, var(--text) 20%, var(--background))); */
+
+    /* What parts a category's title from its cover, in the grid of categories */
+    /* --gallery-thumb-label-gap: 0.4em; */
+
+    /* How a thumbnail answers a pointer - UiBundle's own "bounce-horizontal". Set it to "none" to leave the grid still */
+    /* --gallery-thumb-hover-animation: bounceHorizontal 0.5s infinite ease-in-out; */
+
+    /* What fills the square around a whole-photo thumbnail (config "gallery-thumbnail-whole"), a photo that is not square never filling it entirely */
+    /* --gallery-thumb-background: transparent; */
+
+    /* Measure of the media page - the stored (medium) file, the only one a page ever shows */
+    /* --gallery-media-max-width: 800px; */
+
+    /* The lightbox the high resolution opens in, over the page - a bare <dialog>, so what is set here is its measure and the darkness of the page behind it. The mount around the image is not here, being the passe-partout below, the same one the page's own media is framed with */
+    /* --gallery-lightbox-max-width: 95vw; */
+    /* --gallery-lightbox-max-height: 95vh; */
+    /* --gallery-lightbox-backdrop: var(--c975l-color-gallery-backdrop, rgba(0, 0, 0, 0.9)); */
+
+    /* The passe-partout framing a displayed media, a print's own mount - on the page and in the lightbox alike. Its width is what the "gallery-frame" config picks (none, thin, wide), and its color the page's ink rather than its paper: white on a dark gallery and black on a light one, a mount the color of its ground being a mount nobody sees */
+    /* --gallery-media-frame-width: 10px; */
+    /* --gallery-media-frame-color: var(--c975l-color-gallery-frame, var(--text)); */
+
+    /* The overlay arrows, sitting on the media itself rather than under it - shaped as buttons, so they stay findable on a media of any tone. Set the background and the shadow to none for bare glyphs overlaying the media instead */
+    /* --gallery-nav-size: 3rem; */
+    /* --gallery-nav-offset: 10px; */
+    /* --gallery-nav-radius: 5px; */
+    /* --gallery-nav-color: var(--c975l-color-gallery-nav, #fff); */
+    /* --gallery-nav-hover-color: var(--c975l-color-gallery-nav-hover, var(--gallery-nav-color)); */
+    /* --gallery-nav-background: var(--c975l-color-gallery-nav-background, rgba(0, 0, 0, 0.55)); */
+    /* --gallery-nav-opacity: 0.7; */
+    /* --gallery-nav-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5); */
+
+    /* The breadcrumb opening every page of the viewer - toward the background rather than a flat grey, so it stays legible on a dark page too */
+    /* --gallery-breadcrumb-margin-block-start: 1.5rem; */
+    /* --gallery-breadcrumb-font-size: 1.1rem; */
+    /* --gallery-breadcrumb-color: var(--c975l-color-gallery-breadcrumb, color-mix(in srgb, var(--text) 60%, var(--background))); */
+
+    /* The lead-in a category opens with, above its grid - centered like the breadcrumb above it and the grid below, measured so it stays readable, and toward the background: it introduces the gallery, the h1 is what carries the emphasis. Set the alignment to "left" for a site whose categories are described in several paragraphs, where centered running text stops reading well */
+    /* --gallery-category-description-max-width: 62ch; */
+    /* --gallery-category-description-margin: 0 auto 2rem; */
+    /* --gallery-category-description-font-size: 1.05rem; */
+    /* --gallery-category-description-line-height: 1.7; */
+    /* --gallery-category-description-text-align: center; */
+    /* --gallery-category-description-color: var(--c975l-color-gallery-category-description, color-mix(in srgb, var(--text) 75%, var(--background))); */
+
+    /* The rule parting the lead-in from the breadcrumb - short and centered, a mark rather than a divider across the whole measure. Set its height to 0 to take it away */
+    /* --gallery-category-description-rule-width: 60px; */
+    /* --gallery-category-description-rule-height: 1px; */
+    /* --gallery-category-description-rule-gap: 1.5rem; */
+    /* --gallery-category-description-rule-color: var(--c975l-color-gallery-category-description-rule, color-mix(in srgb, var(--text) 25%, var(--background))); */
+
+    /* The caption an admin wrote under a media - full text colour and full size, it is read where the credits below are only glanced at */
+    /* --gallery-media-description-font-size: 1.05rem; */
+    /* --gallery-media-description-line-height: 1.7; */
+    /* --gallery-media-description-color: var(--c975l-color-gallery-media-description, var(--text)); */
+
+    /* The card the caption is read in, under the media - the site's own surface, radius and shadow, so a gallery's caption is framed like every other panel of the site */
+    /* --gallery-media-description-padding: 1em 1.25em; */
+    /* --gallery-media-description-background: var(--surface-alt); */
+    /* --gallery-media-description-radius: var(--radius-panel); */
+    /* --gallery-media-description-shadow: var(--block-shadow-medium); */
+
+    /* What parts the score from the credits above it - a vote is asked for, not read with them */
+    /* --gallery-rating-margin-top: 1.5em; */
+
+    /* The credits and reserved rights said under a media - toward the background like the breadcrumb, a mention rather than a caption */
+    /* --gallery-credits-font-size: 0.9rem; */
+    /* --gallery-credits-gap: 1em; */
+    /* --gallery-credits-color: var(--c975l-color-gallery-credits, color-mix(in srgb, var(--text) 60%, var(--background))); */
+
+    /* The print offer under a media - the same measure as the photo above it, so a price list never runs wider than what it prices */
+    /* --gallery-print-margin-top: 2em; */
+    /* --gallery-print-title-font-size: 1.15rem; */
+    /* --gallery-print-title-margin-bottom: 0.75em; */
+
+    /* The edition line, and the sold-out one - toward the background like the credits, a mention read before the prices rather than with them */
+    /* --gallery-print-edition-font-size: 0.9rem; */
+    /* --gallery-print-edition-color: var(--c975l-color-gallery-print-edition, color-mix(in srgb, var(--text) 60%, var(--background))); */
+
+    /* One row per size: the label on one side, the price and its button on the other, parted by a rule rather than by a box each */
+    /* --gallery-print-offer-padding: 0.6em 0; */
+    /* --gallery-print-offer-gap: 1em; */
+    /* --gallery-print-offer-rule-color: var(--c975l-color-gallery-print-rule, color-mix(in srgb, var(--text) 20%, var(--background))); */
+    /* --gallery-print-price-gap: 1em; */
+    /* --gallery-print-price-font-weight: 600; */
+
+    /* The line naming what the certificate page states, above the work's title - spaced out, a plate's lettering rather than a heading */
+    /* --gallery-certificate-label-letter-spacing: 0.1em; */
+
+    /* The badge marking a grid entry that opens on a player instead of a still */
+    /* --gallery-video-badge-background: var(--c975l-color-gallery-badge, rgba(0, 0, 0, 0.55)); */
+    /* --gallery-video-badge-color: var(--c975l-color-gallery-badge-text, #fff); */
+
+    /* Aspect ratios the platforms serve their players in - one per platform, plus the default a player framed from anywhere else is given */
+    /* --gallery-video-ratio-default: 16 / 9; */
+    /* --gallery-video-ratio-youtube: 16 / 9; */
+    /* --gallery-video-ratio-tiktok: 9 / 16; */
+    /* --gallery-video-ratio-vimeo: 16 / 9; */
+    /* --gallery-video-ratio-dailymotion: 16 / 9; */
+
+    /* How tall a portrait player is allowed to get, written as the width producing that height (9/16 of it) - an aspect-ratio box only takes a width, fixing its height too drops the ratio */
+    /* --gallery-video-portrait-max-width: calc(70vh * 9 / 16); */
+
+    /* The same for a video file of the site's own, written as the height it really is - a <video> keeps its own ratio once one side is capped, which is also the only way to cap a shape nothing knows in advance */
+    /* --gallery-video-self-hosted-max-height: 70vh; */
+}

@@ -1,0 +1,181 @@
+#!/bin/bash
+# Starts the whole demo with one command (bin/demo [stop], or composer demo / composer demo:stop): requirements checked, dependencies installed, database rebuilt, site served and runner started with the agent found on this computer; DEMO_PORT sets the first port tried (default 8000), AGENT_COMMAND set beforehand is kept as is
+set -euo pipefail
+
+# The project root, where every path below is read from
+Root=$(cd "$(dirname "$0")/.." && pwd)
+cd "$Root"
+RunnerPid=$Root/var/runner.pid
+RunnerScript=$Root/vendor/c975l/pilot-bundle/runner/pilot-runner.py
+Venv=$Root/var/venv
+
+# Stops the server and the runner this script started in this folder, nothing else
+StopDemo() {
+    if [[ -f $RunnerPid ]]; then
+        local Pid
+        Pid=$(cat "$RunnerPid")
+        if [[ -r /proc/$Pid/cmdline ]] && tr '\0' ' ' < "/proc/$Pid/cmdline" | grep -qF "$RunnerScript"; then
+            kill "$Pid" && echo "Runner stopped (pid $Pid)"
+        fi
+        rm -f "$RunnerPid"
+    fi
+    if command -v symfony > /dev/null && [[ $(symfony server:status --dir="$Root" 2> /dev/null) == *"Listening on"* ]]; then
+        symfony server:stop --dir="$Root" > /dev/null 2>&1 && echo "Server stopped" || true
+    fi
+}
+
+# Lists what is missing, one line each with how to get it, and fails if anything is
+CheckRequirements() {
+    local Missing=0 Extensions
+    if ! command -v php > /dev/null || ! php -r 'exit(PHP_VERSION_ID >= 80500 ? 0 : 1);'; then
+        echo "Missing: PHP 8.5 or later, see https://www.php.net/downloads"
+        Missing=1
+    else
+        Extensions=$(php -r 'echo implode(" ", array_filter(["pdo_sqlite", "gd", "intl", "zip"], fn ($e) => !extension_loaded($e)));')
+        if [[ -n $Extensions ]]; then
+            echo "Missing: the PHP extensions $Extensions (Debian/Ubuntu: sudo apt install $(echo "$Extensions" | sed 's/pdo_sqlite/sqlite3/; s/\([a-z0-9]\+\)/php-\1/g'))"
+            Missing=1
+        fi
+    fi
+    if ! command -v composer > /dev/null; then
+        echo "Missing: Composer, see https://getcomposer.org/download/"
+        Missing=1
+    fi
+    if ! command -v symfony > /dev/null; then
+        echo "Missing: the Symfony CLI, see https://symfony.com/download"
+        Missing=1
+    fi
+    if ! command -v python3 > /dev/null; then
+        echo "Missing: Python 3 for the runner (Debian/Ubuntu: sudo apt install python3 python3-venv)"
+        Missing=1
+    fi
+    return $Missing
+}
+
+# The Python the runner starts with: the system one if it has requests and PyYAML, else a venv in var/ installed once
+RunnerPython() {
+    if python3 -c 'import requests, yaml' 2> /dev/null; then
+        echo python3
+        return
+    fi
+    if ! "$Venv/bin/python" -c 'import requests, yaml' 2> /dev/null; then
+        echo "Installing requests and PyYAML for the runner in var/venv" >&2
+        if ! python3 -m venv "$Venv" >&2 || ! "$Venv/bin/pip" install --quiet requests pyyaml >&2; then
+            echo "Missing: a working Python venv for the runner (Debian/Ubuntu: sudo apt install python3-venv), or run pip install requests pyyaml" >&2
+            return 1
+        fi
+    fi
+    echo "$Venv/bin/python"
+}
+
+# True when the variable has a value in .env.local, never printing it
+InEnvLocal() {
+    [[ -f .env.local ]] && grep -qE "^$1=['\"]?[^'\" ]" .env.local
+}
+
+# Writes the variables given from the environment to .env.local, single-quoted for Dotenv, replacing their lines, readable by the owner only and never printed; a subshell, so its umask stays there
+SaveToEnvLocal() (
+    umask 077
+    touch .env.local
+    for Name in "$@"; do
+        [[ -n ${!Name:-} ]] || continue
+        awk -v Name="$Name" -v Quote="'" 'BEGIN { Count = split(ENVIRON[Name], Parts, Quote); Value = Parts[1]; for (I = 2; I <= Count; I++) Value = Value Quote "\\" Quote Quote Parts[I]; Line = Name "=" Quote Value Quote } index($0, Name "=") == 1 { if (!Done) print Line; Done = 1; next } { print } END { if (!Done) print Line }' .env.local > .env.local.tmp
+        mv .env.local.tmp .env.local
+    done
+    chmod 600 .env.local
+)
+
+# The agent the runner hands the card to, exported as AGENT_COMMAND for agent.sh, and the line saying which one it is
+DetectAgent() {
+    if [[ -n ${AGENT_COMMAND:-} ]]; then
+        AgentLine="Agent: your AGENT_COMMAND"
+    elif command -v claude > /dev/null; then
+        AgentLine="Agent: Claude Code (claude found on the PATH)"
+    elif [[ -n ${ANTHROPIC_API_KEY:-} ]] || InEnvLocal ANTHROPIC_API_KEY; then
+        SaveToEnvLocal ANTHROPIC_API_KEY ANTHROPIC_MODEL
+        export AGENT_COMMAND="php bin/console app:agent:run"
+        AgentLine="Agent: the Symfony AI agent with your Anthropic key (kept in .env.local)"
+    elif { [[ -n ${GENERIC_BASE_URL:-} ]] || InEnvLocal GENERIC_BASE_URL; } && { [[ -n ${GENERIC_MODEL:-} ]] || InEnvLocal GENERIC_MODEL; }; then
+        SaveToEnvLocal GENERIC_BASE_URL GENERIC_API_KEY GENERIC_MODEL GENERIC_COMPLETIONS_PATH
+        export AGENT_COMMAND="php bin/console app:agent:run"
+        AgentLine="Agent: the Symfony AI agent with your OpenAI-compatible API (kept in .env.local)"
+    else
+        AgentLine="Agent: none found, the press kit and the MCP endpoint still work; install Claude Code, or set ANTHROPIC_API_KEY (or GENERIC_BASE_URL and GENERIC_MODEL), then run composer demo again"
+    fi
+}
+
+# The first free port from the one given, checked by connecting to it
+FreePort() {
+    local Port=$1
+    while (echo > "/dev/tcp/127.0.0.1/$Port") 2> /dev/null; do
+        Port=$((Port + 1))
+    done
+    echo "$Port"
+}
+
+# Waits for the site to answer, failing after about 20 seconds
+WaitForSite() {
+    local Try
+    for Try in $(seq 40); do
+        php -r 'exit(false === @file_get_contents($argv[1]) ? 1 : 0);' "$1" && return 0
+        sleep 0.5
+    done
+    return 1
+}
+
+# Stop only: the server and the runner of a previous start
+if [[ ${1:-} == stop ]]; then
+    StopDemo
+    exit 0
+fi
+
+# A clean take: what a previous start left running is stopped first
+CheckRequirements
+StopDemo
+mkdir -p var/log
+Python=$(RunnerPython)
+
+# The dependencies, on a fresh clone only
+if [[ ! -d vendor ]]; then
+    composer install --no-interaction
+fi
+
+# The database rebuilt for the port the site is served on, its output kept for the tokens it prints once
+Port=$(FreePort "${DEMO_PORT:-8000}")
+Url=http://127.0.0.1:$Port
+SetupLog=var/log/demo-setup.log
+(umask 077 && php bin/console app:demo:setup --url="$Url" --no-ansi > "$SetupLog" 2>&1) || {
+    cat "$SetupLog"
+    exit 1
+}
+
+# The site, served in the background
+symfony serve -d --no-tls --port="$Port" > var/log/server.log 2>&1 || {
+    cat var/log/server.log
+    exit 1
+}
+if ! WaitForSite "$Url/login"; then
+    echo "The site did not answer on $Url, see var/log/server.log and symfony server:log"
+    exit 1
+fi
+
+# The runner, in the background with its log and pid kept for the stop
+DetectAgent
+(umask 077 && : > var/log/runner.log)
+PILOT_RUNNER_CONFIG=$Root/runner nohup "$Python" "$RunnerScript" >> var/log/runner.log 2>&1 < /dev/null &
+echo $! > "$RunnerPid"
+
+# What to do next
+CardUrl=$(grep -oE "$Url/pilot/[^ ]+/[0-9]+" "$SetupLog" | tail -1)
+cat << EOF
+
+Pilot MCP demo running on $Url
+$AgentLine
+
+1. Sign in at $Url/login with editor@example.com / lighthouse-demo
+2. Open the card "Release The Lighthouse at Dawn": ${CardUrl:-$Url/pilot}
+3. Click ▶ on its first step, "Draft the book in the catalog": the agent works on the card as you watch
+
+Runner log: var/log/runner.log, tokens and the claude mcp add line: $SetupLog
+Stop everything: composer demo:stop
+EOF
